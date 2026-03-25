@@ -7,9 +7,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useState } from "react";
 import { Mail, Sparkles, LogIn } from "lucide-react";
 import Link from "next/link";
+import { sendMagicLink, googleSignIn } from "@/lib/auth";
 
 export function AuthUI() {
-  const { supabase } = useSupabase();
+  const { user } = useSupabase();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -17,24 +18,18 @@ export function AuthUI() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    const { error } = await sendMagicLink(email);
     setLoading(false);
     if (error) alert(error.message);
     else setSent(true);
   };
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    const { data, error } = await googleSignIn();
+    if (error) alert(error.message);
+    else if (data?.url) {
+      window.location.assign(data.url);
+    }
   };
 
   if (sent) {
@@ -69,7 +64,7 @@ export function AuthUI() {
         </Link>
       </div>
 
-      <Card className="w-full max-w-[380px] border-border shadow-2xl bg-white rounded-[2rem] overflow-hidden p-2">
+      <Card className="w-full max-w-[380px] border-border shadow-2xl bg-white rounded-4xl overflow-hidden p-2">
         <CardHeader className="space-y-1 text-center p-8 pt-10">
           <div className="mx-auto w-12 h-12 bg-olive/5 rounded-2xl flex items-center justify-center mb-4 transition-transform hover:rotate-6">
             <LogIn className="text-olive h-6 w-6" />
@@ -109,7 +104,7 @@ export function AuthUI() {
           <Button variant="outline" className="w-full h-11 border-border hover:bg-cream font-black text-xs text-olive rounded-xl transition-all hover:-translate-y-px cursor-pointer shadow-sm" onClick={handleGoogleLogin}>
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
               <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-            </svg> GOOGLE IDENTITY
+            </svg> Sign In with Google
           </Button>
         </CardContent>
         <CardFooter className="p-8 pt-0 bg-cream/20 border-t border-border/30">

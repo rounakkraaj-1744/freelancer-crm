@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Contact, Stage } from "./types";
+import { Contact, Stage } from "@/lib/types";
 
 interface CRMState {
   contacts: Contact[];

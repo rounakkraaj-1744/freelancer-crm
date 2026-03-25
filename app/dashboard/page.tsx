@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { PipelineKanban } from "@/components/PipelineKanban";
 import { NudgeModal } from "@/components/NudgeModal";
@@ -10,6 +10,7 @@ import { Plus, Sparkles, Users, Clock, Zap, Target, Search, Brain, History, Tren
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Contact } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useCRMStore } from "@/stores/useCRMStore";
 
 // Enhanced Mock Data
 const MOCK_CONTACTS: Contact[] = [
@@ -21,12 +22,18 @@ const MOCK_CONTACTS: Contact[] = [
 ];
 
 export default function Dashboard() {
-  const [contacts, setContacts] = useState<Contact[]>(MOCK_CONTACTS);
+  const { contacts, setContacts, updateContactStage } = useCRMStore();
   const [isNudgeOpen, setIsNudgeOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
 
+  useEffect(() => {
+    if (contacts.length === 0) {
+      setContacts(MOCK_CONTACTS);
+    }
+  }, [contacts.length, setContacts]);
+
   const handleMoveContact = (contactId: string, newStage: any) => {
-    setContacts(prev => prev.map(c => c.id === contactId ? { ...c, stage: newStage } : c));
+    updateContactStage(contactId, newStage);
   };
   
   return (
