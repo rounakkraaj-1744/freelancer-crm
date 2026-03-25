@@ -1,65 +1,132 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles, CheckCircle, ShieldCheck, Zap, Menu, Globe, BarChart3, Clock } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Premium Navbar */}
+      <nav className="sticky top-0 z-50 w-full glass">
+        <div className="container mx-auto flex items-center justify-between px-6 py-3">
+          <Link href="/" className="flex items-center gap-2 transition-all cursor-pointer group">
+             <div className="w-8 h-8 rounded-xl bg-sage flex items-center justify-center shadow-lg transition-transform">
+                <Sparkles className="h-5 w-5 text-cream" />
+             </div>
+             <span className="text-xl font-black tracking-tight text-olive uppercase leading-none">Safelance</span>
+          </Link>
+          
+          <div className="hidden lg:flex items-center gap-10 text-xs font-bold text-olive/70">
+            <Link href="#features" className="hover:text-sage transition-colors cursor-pointer">Features</Link>
+            <Link href="#pricing" className="hover:text-sage transition-colors cursor-pointer">Pricing</Link>
+            <Link href="/login" className="px-5 py-2.5 bg-olive text-cream rounded-xl hover:bg-sage transition-all shadow-lg hover:-translate-y-px flex items-center gap-2 cursor-pointer">
+              Launch App <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          
+          <Button variant="ghost" size="icon" className="lg:hidden text-olive h-10 w-10 rounded-xl">
+             <Menu className="h-6 w-6" />
+          </Button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </nav>
+
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
+        {/* Dynamic Background Elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] bg-linear-to-tr from-sage/5 via-cream/40 to-taupe/10 rounded-full blur-[150px] -z-10 animate-pulse duration-5000" />
+        
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-1000 fill-mode-both">
+            <div className="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-sage/10 border border-sage/30 text-xs font-black text-sage uppercase tracking-widest shadow-sm">
+              <div className="w-1.5 h-1.5 bg-sage rounded-full animate-ping" />
+              Llama 3.1 Powered Agent
+            </div>
+            
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-olive tracking-tight leading-[1.1] drop-shadow-md text-balance">
+              Never lose a <span className="text-sage italic block sm:inline decoration-sage/10 underline-offset-2">warm lead</span> ever.
+            </h1>
+            
+            <p className="text-sm sm:text-base text-olive/70 max-w-xl mx-auto font-medium leading-relaxed px-4 text-balance">
+              The only AI-native CRM for high-ticket freelancers. 
+              Automated follow-ups that sound like you, but work while you sleep.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-12 duration-1200 delay-300 fill-mode-both px-4">
+            <Link href="/login" className="w-full sm:w-auto">
+              <Button className="w-full h-12 px-6 text-sm font-bold bg-sage hover:bg-olive text-cream rounded-xl shadow-lg transition-all hover:-translate-y-px flex items-center gap-2 cursor-pointer">
+                Join the Network <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Button variant="outline" className="w-full sm:w-auto h-12 px-6 text-sm font-bold border-taupe/40 text-olive bg-white/40 backdrop-blur rounded-xl shadow-sm transition-all hover:bg-taupe/10 hover:-translate-y-px cursor-pointer">
+              Demo Walkthrough
+            </Button>
+          </div>
+          
+          {/* Enhanced Feature Grid Preview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-20 animate-in fade-in slide-in-from-bottom-20 duration-1500 delay-500 fill-mode-both">
+             {[
+               { icon: Globe, title: "Lead Scoring", desc: "Instantly identify high-value clients across Upwork & LinkedIn." },
+               { icon: BarChart3, title: "Visual Pipeline", desc: "Drag, drop, and close. Minimalism at its peak performance." },
+               { icon: Clock, title: "AI Nudges", desc: "Personalized follow-ups generated by your dedicated LLM instance." }
+             ].map((feature, i) => (
+                <div key={i} className="p-6 rounded-2xl bg-white border border-border/40 shadow-md hover:shadow-lg transition-all hover:-translate-y-px text-left group cursor-pointer">
+                   <div className="w-10 h-10 rounded-lg bg-taupe/20 flex items-center justify-center mb-4 group-hover:bg-sage group-hover:text-cream transition-colors">
+                      <feature.icon className="h-5 w-5 text-olive transition-colors group-hover:text-cream" />
+                   </div>
+                   <h3 className="text-lg font-black text-olive mb-2">{feature.title}</h3>
+                   <p className="text-xs text-olive/60 font-medium leading-relaxed">{feature.desc}</p>
+                </div>
+             ))}
+          </div>
+
+          {/* Trust logos */}
+          <div className="pt-16 flex flex-wrap justify-center gap-x-12 gap-y-6 text-olive/30 opacity-60 grayscale scale-100">
+            <div className="flex items-center gap-2 font-black italic text-xl">Upwork</div>
+            <div className="flex items-center gap-2 font-black text-xl tracking-tighter uppercase">Turing</div>
+            <div className="flex items-center gap-2 font-black text-xl uppercase tracking-widest">Fiverr</div>
+            <div className="flex items-center gap-2 font-bold text-xl font-serif">Contra.</div>
+          </div>
         </div>
       </main>
+
+      <footer className="py-20 px-8 border-t border-border bg-white shadow-inner">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="space-y-6">
+             <div className="text-2xl font-black text-olive tracking-tighter">Safelance</div>
+             <p className="text-olive/60 font-medium text-sm leading-relaxed max-w-xs">The intelligent OS for freelancers building $100k+ independent businesses.</p>
+          </div>
+          <div className="space-y-4">
+             <h4 className="text-xs font-black text-sage uppercase tracking-widest">Platform</h4>
+             <div className="flex flex-col gap-2.5 text-sm font-bold text-olive/70">
+                <Link href="#" className="hover:text-sage">Dashboard</Link>
+                <Link href="#" className="hover:text-sage">AI Features</Link>
+                <Link href="#" className="hover:text-sage">Privacy</Link>
+             </div>
+          </div>
+          <div className="space-y-4">
+             <h4 className="text-xs font-black text-sage uppercase tracking-widest">Community</h4>
+             <div className="flex flex-col gap-2.5 text-sm font-bold text-olive/70">
+                <Link href="#" className="hover:text-sage">Twitter</Link>
+                <Link href="#" className="hover:text-sage">Product Hunt</Link>
+                <Link href="#" className="hover:text-sage">Discord</Link>
+             </div>
+          </div>
+          <div className="space-y-4">
+             <h4 className="text-xs font-black text-sage uppercase tracking-widest">Legal</h4>
+             <div className="flex flex-col gap-2.5 text-sm font-bold text-olive/70">
+                <Link href="#" className="hover:text-sage">Terms</Link>
+                <Link href="#" className="hover:text-sage">Privacy</Link>
+             </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto pt-20 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-border mt-20 opacity-40">
+           <div className="text-xs font-bold text-olive">© 2026 Safelance CRM. Built for performance.</div>
+           <div className="flex gap-4">
+              <div className="w-8 h-8 rounded-full bg-olive" />
+              <div className="w-8 h-8 rounded-full bg-sage" />
+              <div className="w-8 h-8 rounded-full bg-taupe" />
+           </div>
+        </div>
+      </footer>
     </div>
   );
 }

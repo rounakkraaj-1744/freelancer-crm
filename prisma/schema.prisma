@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id() @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+
+  contact  Contact[]
+  pipeline Pipeline[]
+}
+
+model Contact {
+  id          String    @id @default(uuid())
+  userId      String
+  name        String
+  email       String?
+  phone       String?
+  company     String?
+  source      String?
+  notes       String?
+  pipelineId  String?
+  stage       String    @default("Lead")
+  score       Int       @default(0)
+  lastContact DateTime?
+  createdAt   DateTime  @default(now())
+  deletedAt DateTime?
+  updatedAt DateTime @updatedAt
+
+  history History[]
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pipeline Pipeline? @relation(fields: [pipelineId], references: [id])
+
+  @@unique([userId, email])
+  @@index([userId])
+  @@index([score, lastContact])
+}
+
+model Pipeline {
+  id      String   @id() @default(uuid())
+  userId  String
+  name    String   @default("Default Pipeline")
+  created DateTime @default(now())
+
+  contact Contact[]
+  stage   Stage[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Stage {
+  id         String   @id() @default(uuid())
+  pipelineId String
+  name       String
+  position   Int      @unique
+  color      String?  @default("#3B82F6")
+  createdAt  DateTime @default(now())
+
+  pipeline Pipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+}
+
+model History {
+  id        String   @id @default(cuid())
+  contactId String
+  type      String
+  content   String
+  direction String
+  createdAt DateTime @default(now())
+
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([contactId, createdAt(sort: Desc)])
+}
